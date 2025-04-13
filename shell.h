@@ -2,8 +2,9 @@
 #define SHELL_H
 
 #include <string>
+#include "gameObject.h"
 
-class Shell {
+class Shell: public GameObject {
 private:
     
 
