@@ -1,4 +1,3 @@
-// GameTypes.h
 #pragma once
 
 enum class Direction {
@@ -10,4 +9,12 @@ enum class Direction {
     DL,         // (5) DOWN_LEFT
     L,          // (6) LEFT
     UL          // (7) UP_LEFT
+};
+
+struct Position {
+    int x, y;
+    Position(int x, int y) : x(x), y(y) {} //??
+    bool operator==(const Position& other) const {
+        return x == other.x && y == other.y;
+    }
 };
