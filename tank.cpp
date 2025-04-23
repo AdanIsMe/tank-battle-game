@@ -2,6 +2,7 @@
 #include <iostream>
 
 
+
 // Constructor implementation
 Tank::Tank() : num_of_shells(16) {
 }
