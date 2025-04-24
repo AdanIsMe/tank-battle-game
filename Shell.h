@@ -2,7 +2,7 @@
 #define SHELL_H
 
 #include <string>
-#include "gameObject.h"
+#include "GameObject.h"
 
 class Shell: public GameObject {
 private:
