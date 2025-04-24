@@ -128,8 +128,10 @@ void GameManager::handleShellCollision(Shell& shell, GameObject* obj) {
     
     if (Wall* wall = dynamic_cast<Wall*>(obj)) {
         if (wall->weaken()) {
+            //wall->weaken() is true when wall strength is zero -> need to be removed
             board.removeObject(wall->getX(), wall->getY());
         }
+        return;
     }
 
     // Tank collisions are now handled directly in updateGameState
@@ -147,7 +149,7 @@ void GameManager::handleTankCollision(Tank& tank, GameObject* obj) {
     if (Mine* mine = dynamic_cast<Mine*>(obj)) {
         
         //destroy mine:
-        //Just remove it from the board
+            //Just remove it from the board
         board.removeObject(mine->getX(),mine->getY());
 
         //destroy tank :
