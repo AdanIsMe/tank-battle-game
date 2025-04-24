@@ -1,4 +1,4 @@
-#include "gameObject.h"
+#include "GameObject.h"
 
 // Constructor now properly initializes all members
 GameObject::GameObject(GameBoard& board, const std::string& symbol, int x, int y)
