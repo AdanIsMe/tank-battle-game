@@ -2,7 +2,7 @@
 #define CANNON_H
 
 #include <string>
-#include "gameTypes.h"
+#include "GameTypes.h"
 
 class Cannon {
 private:
