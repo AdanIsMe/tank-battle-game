@@ -2,7 +2,7 @@
 #define WALL_H
 
 #include <string>
-#include "gameObject.h"
+#include "GameObject.h"
 
 class Wall: public GameObject {
     // Wall is a subclass of GameObject
