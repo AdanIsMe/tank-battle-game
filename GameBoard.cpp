@@ -1,4 +1,4 @@
-#include "gameBoard.h"
+#include "GameBoard.h"
 #include <iostream>
 #include <iomanip>
 
