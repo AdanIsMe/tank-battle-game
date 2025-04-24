@@ -1,4 +1,4 @@
-#include "tank.h"
+#include "Tank.h"
 #include <iostream>
 
 
