@@ -3,9 +3,9 @@
 
 #include <vector>
 #include <memory>
-#include "cannon.h"
-#include "shell.h"
-#include "gameObject.h"
+#include "Cannon.h"
+#include "Shell.h"
+#include "GameObject.h"
 
 class GameBoard {
     private:
