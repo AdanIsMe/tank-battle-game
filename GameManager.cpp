@@ -1,7 +1,7 @@
 #include "GameManager.h"
 #include <iostream>
-#include "gameObject.h"
-#include "wall.h"
+#include "GameObject.h"
+#include "Wall.h"
 
 GameManager::GameManager(int width, int height) 
     : board(width, height), gameSteps(0), shellsLeft(true), gameRunning(true) {
