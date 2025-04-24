@@ -1,130 +1,199 @@
 #include "GameManager.h"
 #include <iostream>
-#include "GameObject.h"
-#include "Wall.h"
+#include "gameObject.h"
+#include "wall.h"
+#include "mine.h"
 
 GameManager::GameManager(int width, int height) 
-    : board(width, height), gameSteps(0), shellsLeft(true), gameRunning(true) {
+    : board(width, height), gameSteps(0), zeroShellsLeft(false), gameRunning(true), tieCounter(0){
     initializeGame();
 }
 
-
-//////////////////////////////////////////////////////////////////////////////////////
-
 void GameManager::initializeGame() {
-    // Initialize players' tanks - now using make_unique
-    board.placeObject(std::make_unique<Tank>(player1.myTank), 0, 0);
-    board.placeObject(std::make_unique<Tank>(player2.myTank), board.getHeight()-1, board.getWidth()-1);
+    // Initialize players' tanks - not placing them on the board anymore
+    player1.tank.setPosition(0, 0);
+    player2.tank.setPosition(board.getHeight()-1, board.getWidth()-1);
     
     // Other initialization logic
+    zeroShellsLeft = false; //both players shell number is initilized to be 16
 }
 
-//////////////////////////////////////////////////////////////////////////////////////
-
 void GameManager::play() {
-    while (gameRunning && shellsLeft) {
-        /// note to me: if shellsleft is false start counting to 40(game steps)
-        //if no one wins stop the game and declare a tie 
+    while (gameRunning) {
         gameSteps++;
         
-        // Process player actions
+        // Process player actions - each player algorithm should decide next move 
         int move1 = player1.nextMove();
         int move2 = player2.nextMove();
 
-        if(!legalMove(move1,1)){
+        if(!legalMove(move1, 1)){
             //if the move is ilegal ignore it
             std::cout << "bad step" << std::endl;
         }
         else{
-            //if it's a legal move perform it
-            player1.myTank.action(move1);
+            //if it's a legal move perform it(printing happens in the action managment)
+            player1.tank.action(move1);
+            //active shells are added in shoot action
         }
 
-        if(!legalMove(move2,2)){
-            //if the move is ilegal ignore it
+        if(!legalMove(move2, 2)){
             std::cout << "bad step" << std::endl;
         }
         else{
-            //if it's a legal move perform it
-            player2.myTank.action(move2);
+
+            player2.tank.action(move2);
         }
 
-        ///if one of the actions is shoot we should add the shell to active shells
-        
-        // Update all game objects
+        // Update shells left status
+        zeroShellsLeft = (player1.tank.getNumOfShells() == 0) && (player2.tank.getNumOfShells() == 0);
+
         updateGameState();
-        
-        // Check for win conditions
         checkWinConditions();
-        
-        // Display current state
         displayGameState();
     }
 }
 
 void GameManager::updateGameState() {
-    // Update shells
-    //should add active shells
+    // Update all shell positions
     for (auto& shell : activeShells) {
         shell.updatePosition();
-        GameObject* obj = board.getObjectAt(shell.getX(), shell.getY());
-        if (obj != nullptr) {
-            // Handle collision
-            //first: update that the shell should be removed
-            shell.remove = true;
-            //if wall: get damaged 
-            if(Wall *wall = dynamic_cast<Wall*>(obj)){
-                if(wall->weaken()){
-                    board.removeObject(wall->getX(), wall->getY());
-                    //delete wall object
-                }
-            }
-            //if tank: get destroyed and change state is alive to false
-            if(Tank *tank = dynamic_cast<Tank*>(obj)){
-                if(wall->weaken()){
-                    board.removeObject(tank->getX(), tank->getY());
-                    //delete wall object
-                }
-            }
-            //if two shells remove both
-
-            board.removeObject(shell.getX(), shell.getY());
-
-            //check if both tanks used all thier artillery 
-            shellsLeft = player1.my_shells || player2.my_shells;
-        }
-    
     }
     
-    // Remove destroyed objects
-    //loop over shells and check if one of them is destroyed if so remove
+    // Check for collisions
+    for (auto& shell : activeShells) {
+        if (shell.remove) continue;
+
+        // Check collision with static board objects
+        GameObject* obj = board.getObjectAt(shell.getX(), shell.getY());
+        GameObject* obj2 = board.getObjectAt(player1.tank.getX(), player1.tank.getY());
+        GameObject* obj3 = board.getObjectAt(player2.tank.getX(), player2.tank.getY());
+
+        if (obj != nullptr) {
+            handleShellCollision(shell, obj);
+        }
+        if (obj2 != nullptr) {
+            handleTankCollision(player1.tank, obj2);
+        }
+        if (obj3 != nullptr) {
+            handleTankCollision(player2.tank, obj3);
+        }
+
+        // Check collision with non-static objects(shell/tanks):
+
+        // Check shell collision with tanks:
+        if (shell.getX() == player1.tank.getX() && shell.getY() == player1.tank.getY()) {
+            //a shell hits player1 tank
+            player1.tank.isAlive = false;
+            shell.remove = true;
+        }
+        if (shell.getX() == player2.tank.getX() && shell.getY() == player2.tank.getY()) {
+            //a shell hits player2 tank
+            player2.tank.isAlive = false;
+            shell.remove = true;
+        }
+
+        // Check collision with other shells:
+        for (auto& otherShell : activeShells) {
+            if (&shell == &otherShell || otherShell.remove) continue;
+            
+            if (shell.getX() == otherShell.getX() && 
+                shell.getY() == otherShell.getY()) {
+                shell.remove = true;
+                otherShell.remove = true;
+            }
+        }
+    }
+    
+    // Remove destroyed shells
     activeShells.erase(std::remove_if(activeShells.begin(), activeShells.end(),
-        [](const Shell& s) { return s.remove(); }), activeShells.end());
+        [](const Shell& s) { return s.remove; }), activeShells.end());
+
+    // Check for tank-to-tank collision
+    if (player1.tank.getX() == player2.tank.getX() &&
+        player1.tank.getY() == player2.tank.getY()) {
+        player1.tank.isAlive = false;
+        player2.tank.isAlive = false;
+    }
+}
+
+void GameManager::handleShellCollision(Shell& shell, GameObject* obj) {
+    
+    if (Mine* mine = dynamic_cast<Mine*>(obj)) {
+        //nothing happens- I think
+        //no need to remove the shell
+        return;
+    }
+
+    shell.remove = true;
+    
+    if (Wall* wall = dynamic_cast<Wall*>(obj)) {
+        if (wall->weaken()) {
+            board.removeObject(wall->getX(), wall->getY());
+        }
+    }
+
+    // Tank collisions are now handled directly in updateGameState
+}
+
+void GameManager::handleTankCollision(Tank& tank, GameObject* obj) {   
+   
+    if (Wall* wall = dynamic_cast<Wall*>(obj)) {
+        
+        //don't know what is supposed to happen here 
+        // i think nothing happens (mabye tank position won't be updated and that's it)
+        return;
+    }
+
+    if (Mine* mine = dynamic_cast<Mine*>(obj)) {
+        
+        //destroy mine:
+        //Just remove it from the board
+        board.removeObject(mine->getX(),mine->getY());
+
+        //destroy tank :
+        tank.isAlive = false;
+        return;
+    }
+
+    // shell collisions are now handled directly in updateGameState
+ 
 }
 
 void GameManager::checkWinConditions() {
-    // Check if players have tanks remaining
-    bool p1Alive = player1.myTank.isAlive;
-    bool p2Alive = player2.myTank.isAlive;
+    bool p1Alive = player1.tank.isAlive;
+    bool p2Alive = player2.tank.isAlive;
     
-    if (!p1Alive || !p2Alive) {
+    if ((!p1Alive && p2Alive) || (p1Alive && !p2Alive)) {
         gameRunning = false;
         std::cout << "Game over! Winner: " << (p1Alive ? "Player 1" : "Player 2") << std::endl;
     }
-    else if (player1.my_shells && player2.my_shells) {
+    else if (!p1Alive && !p2Alive) {
         gameRunning = false;
-        std::cout << "Game over! Draw - no shells left." << std::endl;
+        std::cout << "Game over! Draw - no tanks left." << std::endl;
     }
-}
-
-bool legalMove(int move,int player){
-    //for now
-    return true;
+    else if (zeroShellsLeft) {
+        gameRunning = (tieCounter <= 40);
+        tieCounter++;
+        if(!gameRunning) {
+            std::cout << "Game over! Draw - no shells left." << std::endl;
+        }
+    }
 }
 
 void GameManager::displayGameState() const {
     std::cout << "\n=== Game State ===" << std::endl;
     std::cout << "Step: " << gameSteps << std::endl;
-    std::cout << "Shells left: " << shellsLeft << std::endl;
-    //board.displayBoard();
+    std::cout << "Player 1 shells: " << player1.tank.getNumOfShells() << std::endl;
+    std::cout << "Player 2 shells: " << player2.tank.getNumOfShells() << std::endl;
+    // You might want to add tank positions to the display
+}
+
+bool GameManager::legalMove(int move, int player) {
+    // Implement proper move validation
+    // Should check boundaries and collisions with walls
+    return true;
+}
+
+void GameManager::addShell(const Shell& shell) {
+    activeShells.push_back(shell);
 }
