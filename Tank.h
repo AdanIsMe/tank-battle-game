@@ -3,9 +3,9 @@
 
 #include <string>
 
-#include "cannon.h"
-//#include "shell.h"
-#include "gameObject.h"
+#include "Cannon.h"
+//#include "Shell.h"
+#include "GameObject.h"
 
 class Tank: public GameObject {
     // Tank is a subclass of GameObject
