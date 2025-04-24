@@ -9,7 +9,7 @@
 
 class Player{
     // player have tanks (for hw1 only one tank)
-    // and an algorthem that decide how to play the game based on the state of the board
+    // and an algorithm that decide how to play the game based on the state of the board
 private:
     
 public:
