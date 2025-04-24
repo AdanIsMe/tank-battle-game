@@ -1,4 +1,4 @@
-    #include "cannon.h"
+    #include "Cannon.h"
 
     // Getter
     Direction Cannon::getCurrentDirection() const
