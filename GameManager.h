@@ -1,8 +1,8 @@
 #ifndef GAMEMANAGER_H
 #define GAMEMANAGER_H
 
-#include "player.h"
-#include "gameBoard.h"
+#include "Player.h"
+#include "GameBoard.h"
 #include <vector>
 
 class GameManager {
