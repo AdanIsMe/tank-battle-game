@@ -2,10 +2,10 @@
 #define PLAYER_H
 #include <string>
 
-#include "cannon.h"
+#include "Cannon.h"
 //#include "shell.h"
-#include "gameObject.h"
-#include "tank.h"
+#include "GameObject.h"
+#include "Tank.h"
 
 class Player{
     // player have tanks (for hw1 only one tank)
