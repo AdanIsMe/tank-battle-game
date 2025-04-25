@@ -1,9 +1,17 @@
 #include "tank.h"
 #include <iostream>
-
+#include "gameManager.h"
+#include "shell.h"
 
 // Constructor implementation
 Tank::Tank() : num_of_shells(16) {
+}
+
+Tank::Tank(GameManager* gm,int shells) : num_of_shells(shells), gameManager(gm) {}
+
+int Tank::getNumOfShells() const
+{
+    return num_of_shells;
 }
 
 //this function ensures one game step per action
@@ -18,37 +26,39 @@ void Tank::action(int command) {
     }
 
     // If we're in waiting state (first 2 steps after backward request)
-    if (waited > 0 && waited < 3) {
-        waited++;
+    if (waited_steps > 0 && waited_steps < 3) {
+        waited_steps++;
         // Forward cancels one pending backward
         if(command == 1){
             std::cout << "Forward canceled one pending backward" << std::endl;
-            waited = 0;
+            waited_steps = 0;
             return;
         }
         // Additional backward requests during waiting are ignored
         // Other commands are also ignored during waiting
+        std::cout << "we are still waiting" << std::endl;
         return;
     }
     // If we just completed waiting (3rd step)
-    else if (waited == 3) {
+    else if (waited_steps == 3) {
         if(command == 1){
             std::cout << "Forward canceled one pending backward" << std::endl;
-            waited = 0;
+            waited_steps = 0;
         }
         // Execute the pending backward move
         else{
             moveBackward();
+
             //to check if we get another backward command immediately after executing
-            waited = 4;
+            waited_steps = 4;
         }
 
         return;
     }
     //check for consecutive backward moves
-    else if (waited == 4 && command != 2){
+    else if (waited_steps == 4 && command != 2){
         // the tank stopped or performed an action other than moving backward we reset waiting time
-        waited = 0;   
+        waited_steps = 0;   
     }
 
     // Handle normal commands when not waiting
@@ -58,14 +68,14 @@ void Tank::action(int command) {
             break;
             
         case 2: // Move backward
-            if(waited == 4){
+            if(waited_steps == 4){
                 //consecutive backward moves takes only one game step
                 moveBackward();//takes only one game step
                 return;
             }
             else{
                 //New backward request starts waiting period
-                waited = 1; // Start counting (1, 2, then execute on 3)
+                waited_steps = 1; // Start counting (1, 2, then execute on 3)
             }
             break;
             
@@ -74,11 +84,10 @@ void Tank::action(int command) {
                 if(shoot_cnt == 0){
                     shoot();
                     shoot_cnt = 1; //start counting steps
-                    num_of_shells--;
                 }
             }
             else{
-                //std::cout << "can't shoot yet" << std::endl;
+                std::cout << "can't shoot yet" << std::endl;
                 std::cout << "bad step" << std::endl;
             }
             break;
@@ -88,11 +97,19 @@ void Tank::action(int command) {
     }
 }
 
-void Tank::shoot(){
-    //initial idea: create Artillery shell object with cooardinate and direction
-    //and add it to the game board until it explodes  
-    //maybe the game manager should keep track of it
-    //keep a list of shells that were launched and update it on the board 
+void Tank::shoot() {
+    if (num_of_shells > 0){
+        if (gameManager) {
+            Direction dir = cannon.getCurrentDirection();
+            Shell newShell(x_coordinate, y_coordinate, dir);
+            gameManager->addShell(newShell); // Add shell to GameManager's activeShells
+            num_of_shells--;
+        }
+    }
+    else{
+        std::cout << "no shells left" << std::endl;
+        std::cout << "bad step" << std::endl;
+    }
 }
 
 void Tank::moveForward() {
@@ -198,3 +215,5 @@ void Tank::moveBackward() {
             break;  
     }
 }
+
+
