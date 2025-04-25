@@ -10,6 +10,8 @@ class Mine: public GameObject {
     // It represents a Mine in the game that can be destroyed by tanks(and destroy tanks)
 
 private:
+    int x;
+    int y;
 
 public:
     //create constrector for wall

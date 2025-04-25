@@ -17,9 +17,9 @@ private:
     int tieCounter;
 
 public:
-    GameManager(int width, int height);
+    GameManager(GameBoard& board,int x1, int y1, int x2, int y2);
     
-    void initializeGame();
+    void initializeGame(int x1, int y1, int x2, int y2);
     void play();
     void updateGameState();
     void checkWinConditions();

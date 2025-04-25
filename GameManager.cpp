@@ -1,18 +1,19 @@
 #include "GameManager.h"
 #include <iostream>
 #include "gameObject.h"
+#include "gameBoard.h"
 #include "wall.h"
 #include "mine.h"
 
-GameManager::GameManager(int width, int height) 
-    : board(width, height), gameSteps(0), zeroShellsLeft(false), gameRunning(true), tieCounter(0){
-    initializeGame();
+GameManager::GameManager(GameBoard& board,int x1,int y1, int x2, int y2) 
+    : board(board), gameSteps(0), zeroShellsLeft(false), gameRunning(true), tieCounter(0){
+    initializeGame(x1,y1,x2,y2);
 }
 
-void GameManager::initializeGame() {
+void GameManager::initializeGame(int x1,int y1,int x2,int y2) {
     // Initialize players' tanks - not placing them on the board anymore
-    player1.tank.setPosition(0, 0);
-    player2.tank.setPosition(board.getHeight()-1, board.getWidth()-1);
+    player1.tank.setPosition(x1, y1);
+    player2.tank.setPosition(x2,y2);
     
     // Other initialization logic
     zeroShellsLeft = false; //both players shell number is initilized to be 16
@@ -47,7 +48,9 @@ void GameManager::play() {
         // Update shells left status
         zeroShellsLeft = (player1.tank.getNumOfShells() == 0) && (player2.tank.getNumOfShells() == 0);
 
-        updateGameState();
+        updateGameState();//move shell one step at a time
+        updateGameState();//check each time if collision ocurred
+
         checkWinConditions();
         displayGameState();
     }
@@ -128,10 +131,8 @@ void GameManager::handleShellCollision(Shell& shell, GameObject* obj) {
     
     if (Wall* wall = dynamic_cast<Wall*>(obj)) {
         if (wall->weaken()) {
-            //wall->weaken() is true when wall strength is zero -> need to be removed
             board.removeObject(wall->getX(), wall->getY());
         }
-        return;
     }
 
     // Tank collisions are now handled directly in updateGameState
@@ -149,7 +150,7 @@ void GameManager::handleTankCollision(Tank& tank, GameObject* obj) {
     if (Mine* mine = dynamic_cast<Mine*>(obj)) {
         
         //destroy mine:
-            //Just remove it from the board
+        //Just remove it from the board
         board.removeObject(mine->getX(),mine->getY());
 
         //destroy tank :

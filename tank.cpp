@@ -112,7 +112,6 @@ void Tank::shoot() {
     }
 }
 
-
 void Tank::moveForward() {
     Direction curr = cannon.getCurrentDirection(); // Get the current direction of the cannon
     int board_height = board.getHeight();
