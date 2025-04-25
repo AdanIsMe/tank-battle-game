@@ -20,7 +20,7 @@ void Shell::updatePosition() {
     int board_height = board.getHeight();
     int board_width = board.getWidth();
     
-    //move two steps each game step
+    //move one steps (each game step shell have to move two steps - game manager handles that)
     switch(direction) {
         // UP: Decrease row (x--) since rows grow downward
         case Direction::U:
