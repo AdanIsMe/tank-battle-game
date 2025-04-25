@@ -142,8 +142,8 @@ void GameManager::handleTankCollision(Tank& tank, GameObject* obj) {
    
     if (Wall* wall = dynamic_cast<Wall*>(obj)) {
         
-        //don't know what is supposed to happen here 
-        // i think nothing happens (mabye tank position won't be updated and that's it)
+        //collision shouldn't happen if we encounter a wall while moving tank can't move there 
+        std::cout << "we shouldn't get here we did somthing wrong" << std::endl;
         return;
     }
 
