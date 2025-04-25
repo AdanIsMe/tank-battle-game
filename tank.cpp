@@ -98,13 +98,20 @@ void Tank::action(int command) {
 }
 
 void Tank::shoot() {
-    if (gameManager) {
-        Direction dir = cannon.getCurrentDirection();
-        Shell newShell(x_coordinate, y_coordinate, dir);
-        gameManager->addShell(newShell); // Add shell to GameManager's activeShells
-        num_of_shells--;
+    if (num_of_shells > 0){
+        if (gameManager) {
+            Direction dir = cannon.getCurrentDirection();
+            Shell newShell(x_coordinate, y_coordinate, dir);
+            gameManager->addShell(newShell); // Add shell to GameManager's activeShells
+            num_of_shells--;
+        }
+    }
+    else{
+        std::cout << "no shells left" << std::endl;
+        std::cout << "bad step" << std::endl;
     }
 }
+
 
 void Tank::moveForward() {
     Direction curr = cannon.getCurrentDirection(); // Get the current direction of the cannon
