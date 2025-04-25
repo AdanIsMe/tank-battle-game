@@ -26,6 +26,10 @@ int GameObject::getY()
     return y_coordinate;
 }
 
+bool GameObject::isWall(){
+    return false;
+}
+
 std::string GameObject::getSymbol() const {
     return symbol;
 }

@@ -21,6 +21,8 @@ public:
 
     int getX();
     int getY();
+
+    virtual bool isWall();
     
     // Symbol access
     std::string getSymbol() const;

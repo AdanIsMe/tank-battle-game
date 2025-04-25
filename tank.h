@@ -18,6 +18,7 @@ private:
     int num_of_shells; // avaliable shells: artillery shells left.
     int waited_steps = 0; //keep track of steps waiting(2 steps)
     int shoot_cnt = 0; //keep track of game steps(can't shoot again for 4 steps)
+    //GameBoard &board;
 
     // Tanks position on the game board
     int x_coordinate;

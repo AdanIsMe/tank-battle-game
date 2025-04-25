@@ -12,3 +12,7 @@ bool Wall::weaken()
     strength--;
     return strength == 0;
 }
+
+bool Wall::isWall(){
+    return true;
+}

@@ -116,51 +116,65 @@ void Tank::moveForward() {
     Direction curr = cannon.getCurrentDirection(); // Get the current direction of the cannon
     int board_height = board.getHeight();
     int board_width = board.getWidth();
-
+    int new_x = x_coordinate;
+    int new_y = y_coordinate;
     switch(curr) {
         // UP: Decrease row (x--) since rows grow downward
         case Direction::U:
-            x_coordinate = (x_coordinate - 1 + board_height) % board_height;
+            new_x = (x_coordinate - 1 + board_height) % board_height;
+            //new_y = y_coordinate;
             break;
 
         // DOWN: Increase row (x++)
         case Direction::D:
-            x_coordinate = (x_coordinate + 1) % board_height;
+            new_x = (x_coordinate + 1) % board_height;
+            //new_y = y_coordinate;
             break;
 
         // LEFT: Decrease column (y--)
         case Direction::L:
-            y_coordinate = (y_coordinate - 1 + board_width) % board_width;
+            //new_x = x_coordinate;
+            new_y = (y_coordinate - 1 + board_width) % board_width;
             break;
 
         // RIGHT: Increase column (y++)
         case Direction::R:
-            y_coordinate = (y_coordinate + 1) % board_width;
+            //new_x = x_coordinate;
+            new_y = (y_coordinate + 1) % board_width;
             break;
 
         // UP-RIGHT: Decrease row, increase column (x--, y++)
         case Direction::UR:
-            x_coordinate = (x_coordinate - 1 + board_height) % board_height;
-            y_coordinate = (y_coordinate + 1) % board_width;
+            new_x = (x_coordinate - 1 + board_height) % board_height;
+            new_y = (y_coordinate + 1) % board_width;
             break;
         
         // UP-LEFT: (x--, y--)
         case Direction::UL:
-            x_coordinate = (x_coordinate - 1 + board_height) % board_height;
-            y_coordinate = (y_coordinate - 1 + board_width) % board_width;
+            new_x = (x_coordinate - 1 + board_height) % board_height;
+            new_y = (y_coordinate - 1 + board_width) % board_width;
             break;
 
         // DOWN-RIGHT: (x++, y++)
         case Direction::DR:
-            x_coordinate = (x_coordinate + 1) % board_height;
-            y_coordinate = (y_coordinate + 1) % board_width;
+            new_x = (x_coordinate + 1) % board_height;
+            new_y = (y_coordinate + 1) % board_width;
             break;
 
         // DOWN-LEFT: (x++, y--)
         case Direction::DL: 
-            x_coordinate = (x_coordinate + 1) % board_height;
-            y_coordinate = (y_coordinate - 1 + board_width) % board_width;
+            new_x = (x_coordinate + 1) % board_height;
+            new_y = (y_coordinate - 1 + board_width) % board_width;
             break;  
+    }
+
+    if(board.getObjectAt(new_x,new_y)->isWall()){
+        std::cout << "can't move a wall is in the way" << std::endl;
+        std::cout << "bad step" << std::endl;
+    }
+    else{
+        x_coordinate = new_x;
+        y_coordinate = new_y;
     }
 }
 
@@ -168,51 +182,66 @@ void Tank::moveBackward() {
     Direction curr = cannon.getCurrentDirection(); // Get the current direction of the cannon
     int board_height = board.getHeight();
     int board_width = board.getWidth();
+    int new_x = x_coordinate;
+    int new_y = y_coordinate;
 
     switch(curr) {
         // UP (forward) becomes DOWN (backward)
         case Direction::U:
-            x_coordinate = (x_coordinate + 1) % board_height;
+            new_x = (x_coordinate + 1) % board_height;
+            //new_y = y_coordinate;
             break;
 
         // DOWN (forward) becomes UP (backward)
         case Direction::D:
-            x_coordinate = (x_coordinate - 1 + board_height) % board_height;
+            new_x = (x_coordinate - 1 + board_height) % board_height;
+            //new_y = y_coordinate;
             break;
 
         // LEFT (forward) becomes RIGHT (backward)
         case Direction::L:
-            y_coordinate = (y_coordinate + 1) % board_width;
+            //new_x =x_coordinate;
+            new_y = (y_coordinate + 1) % board_width;
             break;
 
         // RIGHT (forward) becomes LEFT (backward)
         case Direction::R:
-            y_coordinate = (y_coordinate - 1 + board_width) % board_width;
+            //new_x = x_coordinate;
+            new_y = (y_coordinate - 1 + board_width) % board_width;
             break;
 
         // UP-RIGHT (forward) becomes DOWN-LEFT (backward)
         case Direction::UR:
-            x_coordinate = (x_coordinate + 1) % board_height;
-            y_coordinate = (y_coordinate - 1 + board_width) % board_width;
+            new_x = (x_coordinate + 1) % board_height;
+            new_y = (y_coordinate - 1 + board_width) % board_width;
             break;
         
         // UP-LEFT (forward) becomes DOWN-RIGHT (backward)
         case Direction::UL:
-            x_coordinate = (x_coordinate + 1) % board_height;
-            y_coordinate = (y_coordinate + 1) % board_width;
+            new_x = (x_coordinate + 1) % board_height;
+            new_y = (y_coordinate + 1) % board_width;
             break;
 
         // DOWN-RIGHT (forward) becomes UP-LEFT (backward)
         case Direction::DR:
-            x_coordinate = (x_coordinate - 1 + board_height) % board_height;
-            y_coordinate = (y_coordinate - 1 + board_width) % board_width;
+            new_x = (x_coordinate - 1 + board_height) % board_height;
+            new_y = (y_coordinate - 1 + board_width) % board_width;
             break;
 
         // DOWN-LEFT (forward) becomes UP-RIGHT (backward)
         case Direction::DL: 
-            x_coordinate = (x_coordinate - 1 + board_height) % board_height;
-            y_coordinate = (y_coordinate + 1) % board_width;
+            new_x = (x_coordinate - 1 + board_height) % board_height;
+            new_y = (y_coordinate + 1) % board_width;
             break;  
+    }
+    
+    if(board.getObjectAt(new_x,new_y)->isWall()){
+        std::cout << "can't move a wall is in the way" << std::endl;
+        std::cout << "bad step" << std::endl;
+    }
+    else{
+        x_coordinate = new_x;
+        y_coordinate = new_y;
     }
 }
 

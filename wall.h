@@ -15,6 +15,7 @@ public:
     //create constrector for wall
     Wall(int x, int y);
     bool weaken();
+    bool isWall();
 
 };
 
