@@ -1,0 +1,62 @@
+Game initialized with:
+Board size: 10x10
+Player 1 algorithm: ChaseAlgorithm
+Player 2 algorithm: DefensiveAlgorithm
+
+Starting game...
+
+Step 0:
+Player 1: ROTATE_LEFT to DL
+Player 2: ROTATE_RIGHT to DR
+
+Step 1:
+Player 1: ROTATE_LEFT to D
+Player 2: ROTATE_RIGHT to D
+
+Step 2:
+Player 1: MOVE_FORWARD
+Player 2: ROTATE_RIGHT to DL
+
+Step 3:
+Player 1: ROTATE_LEFT to DR
+Player 2: ROTATE_RIGHT to L
+
+Step 4:
+Player 1: SHOOT
+Player 2: MOVE_FORWARD
+
+Step 5:
+Player 1: MOVE_FORWARD
+Player 2: MOVE_FORWARD
+
+Step 6:
+Player 1: ROTATE_LEFT to R
+Player 2: MOVE_FORWARD
+
+Step 7:
+Player 1: ROTATE_LEFT to UR
+Player 2: MOVE_FORWARD
+
+Step 8:
+Player 1: ROTATE_LEFT to U
+Player 2: MOVE_FORWARD
+
+Step 9:
+Player 1: ROTATE_LEFT to UL
+Player 2: ROTATE_RIGHT to UL
+
+Step 10:
+Player 1: ROTATE_LEFT to L
+Player 2: MOVE_FORWARD
+
+Step 11:
+Player 1: ROTATE_LEFT to DL
+Player 2: ROTATE_RIGHT to U
+
+Step 12:
+Player 1: MOVE_FORWARD
+Player 2: SHOOT
+Shell hit tank 1 at (1,4)
+
+Game ended after 13 steps.
+Result: Player 2 wins - Player 1 tank destroyed

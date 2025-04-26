@@ -1,0 +1,4 @@
+Invalid character '0' at (1,0), treated as empty space.
+Duplicate player 1 tank at (3,0), ignored.
+Invalid character '0' at (4,0), treated as empty space.
+Duplicate player 1 tank at (1,2), ignored.
