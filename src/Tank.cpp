@@ -36,12 +36,10 @@ void Tank::startBackwardMove() {
     }
 }
 
-void Tank::performBackwardMove() {
-    if (backwardMoveStep == 3) {
-        backwardMoveStep = 0;
-    } else if (backwardMoveStep > 0) {
-        backwardMoveStep++;
-    }
+void Tank::incraeseWaitTime(){
+    if (backwardMoveStep < 5) {
+        backwardMoveStep++;}
+    
 }
 
 void Tank::cancelBackwardMove() {

@@ -10,6 +10,8 @@ std::string Shell::getSymbol() const {
 
 void Shell::move() {
     auto [dx, dy] = DirectionUtil::getMovement(direction);
-    x += dx * 2; // Shells move 2 units per step
-    y += dy * 2;
+    x = x + dx; // Shells move 2 units per step
+    y = y + dy; //but we check one step at at time
+    //x += dx * 2; 
+    //y += dy * 2;
 }

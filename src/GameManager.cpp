@@ -127,8 +127,24 @@ void GameManager::processTankAction(const std::shared_ptr<Tank>& tank, const std
     int playerId = tank->getPlayerId();
     auto [x, y] = tank->getPosition();
     Direction dir = tank->getDirection();
+
+    if(tank->getBackwardMoveStep() > 3 && action != "MOVE_BACKWARD"){
+        //reset consecutive backward moves
+        tank->cancelBackwardMove();
+    }
+
+    if (tank->isInBackwardMove() && action != "MOVE_FORWARD"){
+        //we reached 3rd step 
+        if (tank->getBackwardMoveStep() == 3){
+            performBackwardMove(tank);
+        }
+        else{
+            writeAction(playerId, "MOVE_BACKWARD(still waiting)", false);
+        }
+        return;
+    }
     
-    if (action == "MOVE_FORWARD") {
+    else if (action == "MOVE_FORWARD") {
         // Cancel any pending backward move
         if (tank->isInBackwardMove()) {
             tank->cancelBackwardMove();
@@ -157,42 +173,21 @@ void GameManager::processTankAction(const std::shared_ptr<Tank>& tank, const std
             writeAction(playerId, "MOVE_FORWARD", true);
         }
     } 
+
     else if (action == "MOVE_BACKWARD") {
-        if (tank->isInBackwardMove()) {
-            if (tank->getBackwardMoveStep() == 3) {
-                // Perform the backward move
-                auto [dx, dy] = DirectionUtil::getMovement(dir);
-                int nx = x - dx;
-                int ny = y - dy;
-                wrapPosition(nx, ny);
-                
-                // Check if move is valid
-                bool canMove = true;
-                for (const auto& obj : board->getObjectsAt(nx, ny)) {
-                    if (obj->isCollidable() && obj.get() != tank.get()) {
-                        canMove = false;
-                        break;
-                    }
-                }
-                
-                if (canMove) {
-                    tank->setPosition(nx, ny);
-                    writeAction(playerId, "MOVE_BACKWARD", false);
-                } else {
-                    writeAction(playerId, "MOVE_BACKWARD", true);
-                }
-                tank->performBackwardMove();
-            } else {
-                // Still waiting
-                tank->performBackwardMove();
-                writeAction(playerId, "MOVE_BACKWARD (waiting)", false);
-            }
-        } else {
-            // Start backward move
+        if (!tank->isInBackwardMove()) {
+            // we start waiting
             tank->startBackwardMove();
-            writeAction(playerId, "MOVE_BACKWARD (started)", false);
+            writeAction(playerId, "MOVE_BACKWARD (start waiting time)", false);
+            return;
+        }
+        else if (tank->getBackwardMoveStep() >= 3) {
+            //1. we are on the third move
+            //2. no need to wait after consecutive backward moves
+            performBackwardMove(tank);
         }
     }
+
     else if (action == "ROTATE_LEFT") {
         Direction newDir = DirectionUtil::rotateLeft(dir);
         tank->setDirection(newDir);
@@ -231,7 +226,11 @@ void GameManager::processTankAction(const std::shared_ptr<Tank>& tank, const std
     else if (action == "NONE") {
         writeAction(playerId, "NONE", false);
     }
-    
+
+    // for backward move if we are waiting
+    if(tank->isInBackwardMove()){
+        tank->incraeseWaitTime(); 
+    }
     // Decrease shoot cooldown
     tank->decreaseShootCooldown();
 }
@@ -286,17 +285,54 @@ void GameManager::checkCollisions() {
     }
 }
 
+void GameManager::performBackwardMove(const std::shared_ptr<Tank>& tank){
+    // Perform the backward move 
+    int playerId = tank->getPlayerId();
+    auto [x, y] = tank->getPosition();
+    Direction dir = tank->getDirection();
+
+    auto [dx, dy] = DirectionUtil::getMovement(dir);
+    int nx = x - dx;
+    int ny = y - dy;
+    wrapPosition(nx, ny);
+          
+    // Check if move is valid
+    bool canMove = true;
+    for (const auto& obj : board->getObjectsAt(nx, ny)) {
+        if (obj->isCollidable() && obj.get() != tank.get()) {
+            canMove = false;
+            break;
+        }
+    }
+          
+    if (canMove) {
+        tank->setPosition(nx, ny);
+        writeAction(playerId, "MOVE_BACKWARD", false);
+    } else {
+        writeAction(playerId, "MOVE_BACKWARD", true);
+    }
+}
+
 
 void GameManager::processShells() {
     // Process all active shells
     for (const auto& shell : board->getShells()) {
-        // Move shell and get its new position
+        // Move shell 1 step and get its new position
         shell->move();
         auto [x, y] = shell->getPosition();
         wrapPosition(x, y);
 
         // Check collisions at new position
         checkShellCollisions(shell, x, y);
+
+        // Move shell another step and get its new position
+        shell->move();
+        auto [x2, y2] = shell->getPosition();
+        wrapPosition(x2, y2);
+        
+        // Check collisions again at the new position
+        checkShellCollisions(shell, x2, y2);
+        
     }
 }
 
@@ -305,10 +341,12 @@ void GameManager::checkGameEnd() {
     auto tanks = board->getTanks();
     bool player1Alive = false;
     bool player2Alive = false;
+    int zeroShellsLeft = 0;
     
     for (const auto& tank : tanks) {
         if (tank->getPlayerId() == 1) player1Alive = true;
         if (tank->getPlayerId() == 2) player2Alive = true;
+        zeroShellsLeft += tank->getShellsLeft();
     }
     
     if (!player1Alive && !player2Alive) {
@@ -320,7 +358,7 @@ void GameManager::checkGameEnd() {
     } else if (!player2Alive) {
         gameOver = true;
         result = "Player 1 wins - Player 2 tank destroyed";
-    } else if (board->getShells().empty()) {
+    } else if (zeroShellsLeft == 0) {
         noShellsSteps++;
         if (noShellsSteps >= 40) {
             gameOver = true;
@@ -353,8 +391,8 @@ void GameManager::handleWallCollision(const std::shared_ptr<GameObject>& wall) {
 
 void GameManager::handleShellCollision(const std::shared_ptr<Shell>& shell1, 
     const std::shared_ptr<GameObject>& shell2) {
-board->removeShell(shell1);
-board->removeShell(std::static_pointer_cast<Shell>(shell2));
+    board->removeShell(shell1);
+    board->removeShell(std::static_pointer_cast<Shell>(shell2));
 }
 
 
