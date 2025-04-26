@@ -12,6 +12,8 @@ public:
     
     bool initialize();
     void runGame();
+
+    const GameBoard& getGameBoard() const;
     
 private:
     std::string inputFile;

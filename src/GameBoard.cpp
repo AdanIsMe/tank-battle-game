@@ -6,6 +6,10 @@
 #include <fstream>
 #include <sstream>
 #include <algorithm>
+#include <iostream>
+#include <iomanip>
+#include <unordered_map>
+
 
 GameBoard::GameBoard(int width, int height) : width(width), height(height) {}
 
@@ -16,8 +20,11 @@ bool GameBoard::loadFromFile(const std::string& filename, std::string& errors) {
         errors = "Failed to open file: " + filename;
         return false;
     }
-    
+
+    // First line should be dimensions (already handled by GameManager)
     std::string line;
+    std::getline(file, line);  // ← Explicitly skips the first line (e.g., "4 4")
+    
     int lineNum = 0;
     bool hasPlayer1 = false, hasPlayer2 = false;
     
@@ -143,4 +150,59 @@ void GameBoard::clear() {
     shells.clear();
     mines.clear();
     walls.clear();
+}
+
+void GameBoard::displayBoard() const {
+    // Add this at the start of displayBoard()
+    std::cout << "\nCurrent Board (" << width << "x" << height << "):\n";
+    std::cout << "-------------------------\n";
+    // Initialize empty grid with spaces
+    std::vector<std::vector<char>> grid(height, std::vector<char>(width, ' '));
+
+    // Mark walls (indestructible)
+    for (const auto& wall : walls) {
+        auto [x, y] = wall->getPosition();
+        if (x >= 0 && x < width && y >= 0 && y < height) {
+            grid[y][x] = '#';
+        }
+    }
+
+    // Mark mines
+    for (const auto& mine : mines) {
+        auto [x, y] = mine->getPosition();
+        if (x >= 0 && x < width && y >= 0 && y < height) {
+            grid[y][x] = '@';
+        }
+    }
+
+    // Mark tanks (will overwrite other objects)
+    for (const auto& tank : tanks) {
+        auto [x, y] = tank->getPosition();
+        if (x >= 0 && x < width && y >= 0 && y < height) {
+            grid[y][x] = '0' + tank->getPlayerId(); // '1' or '2'
+        }
+    }
+
+    // Print column headers (single-digit only for small boards)
+    std::cout << "   ";
+    for (int x = 0; x < width; ++x) {
+        std::cout << " " << x;
+    }
+    std::cout << "\n";
+
+    // Print grid with row headers
+    for (int y = 0; y < height; ++y) {
+        std::cout << std::setw(2) << y << " ";
+        for (int x = 0; x < width; ++x) {
+            std::cout << " " << grid[y][x];
+        }
+        std::cout << "\n";
+    }
+
+    // Legend
+    std::cout << "\nLegend:\n"
+              << "  #: Wall\n"
+              << "  @: Mine\n"
+              << "  1: Player 1 Tank\n"
+              << "  2: Player 2 Tank\n";
 }

@@ -36,10 +36,28 @@ bool GameManager::initialize() {
         return false;
     }
     
-    // Load game board
-    std::string errors;
-    board = std::make_unique<GameBoard>(100, 100); // Default large size, will be adjusted
+    // First pass to get dimensions
+    std::ifstream inFile(inputFile);
+    if (!inFile.is_open()) {
+        std::cerr << "Failed to open input file: " << inputFile << std::endl;
+        return false;
+    }
     
+    int width = 0, height = 0;
+    inFile >> width >> height;
+    inFile.close();
+    
+    // Validate dimensions
+    if (width <= 0 || height <= 0) {
+        std::cerr << "Invalid board dimensions: " << width << "x" << height << std::endl;
+        return false;
+    }
+    
+    // Create board with correct dimensions
+    board = std::make_unique<GameBoard>(width, height);
+    
+    // Load game board content
+    std::string errors;
     if (!board->loadFromFile(inputFile, errors)) {
         std::cerr << "Failed to load game board: " << errors << std::endl;
         return false;
@@ -59,6 +77,7 @@ bool GameManager::initialize() {
     algorithm2 = std::make_unique<DefensiveAlgorithm>();
     
     outStream << "Game initialized with:\n";
+    outStream << "Board size: " << width << "x" << height << "\n";
     outStream << "Player 1 algorithm: " << algorithm1->getName() << "\n";
     outStream << "Player 2 algorithm: " << algorithm2->getName() << "\n\n";
     
@@ -350,7 +369,4 @@ bool GameManager::shouldDestroyShell(const std::shared_ptr<GameObject>& obj) {
     return obj->isWall() || obj->isShell() || obj->isTank();
 }
 
-
-
-
-
+const GameBoard& GameManager::getGameBoard() const { return *board; }

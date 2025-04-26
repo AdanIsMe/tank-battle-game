@@ -33,6 +33,8 @@ public:
     void removeTank(std::shared_ptr<Tank> tank);
     
     void wrapCoordinates(int& x, int& y) const;
+
+    void displayBoard() const;
     
 private:
     int width, height;

@@ -15,6 +15,11 @@ int main(int argc, char* argv[]) {
         if (!gameManager.initialize()) {
             return 1;
         }
+
+        // Display initial board state
+        std::cout << "\nInitial Game Board:\n";
+        gameManager.getGameBoard().displayBoard();
+        
         gameManager.runGame();
     } catch (const std::exception& e) {
         std::cerr << "Error: " << e.what() << std::endl;
