@@ -23,9 +23,10 @@ public:
     void decreaseShootCooldown();
     void shoot();
     void startBackwardMove();
-    void performBackwardMove();
+    //void performBackwardMove();
     void cancelBackwardMove();
     bool isInBackwardMove() const;
+    void incraeseWaitTime();
     
 private:
     int playerId;

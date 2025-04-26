@@ -40,4 +40,5 @@ private:
                                         const std::shared_ptr<GameObject>& shell2);
     void handleTankCollision(const std::shared_ptr<GameObject>& tank,int x, int y);
     bool shouldDestroyShell(const std::shared_ptr<GameObject>& obj);
+    void performBackwardMove(const std::shared_ptr<Tank>& tank);
 };
