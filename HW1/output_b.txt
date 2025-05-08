@@ -1,0 +1,34 @@
+Game initialized with:
+Board size: 7x7
+Player 1 algorithm: OffensiveAlgorithm
+Player 2 algorithm: DefensiveAlgorithm
+
+Starting game...
+
+Step 0:
+Player 1: MOVE_FORWARD
+Player 2: NONE
+
+Step 1:
+Player 1: MOVE_FORWARD
+Player 2: NONE
+
+Step 2:
+Player 1: MOVE_FORWARD
+Player 2: NONE
+
+Step 3:
+Player 1: MOVE_FORWARD
+Player 2: NONE
+
+Step 4:
+Player 1: ROTATE_RIGHT to UL
+Player 2: NONE
+
+Step 5:
+Player 1: SHOOT
+Player 2: ROTATE_RIGHT to DR
+Shell and Tank 2 destroyed at (1,1)
+
+Game ended after 6 steps.
+Result: Player 1 wins - Player 2 tank destroyed
