@@ -127,7 +127,7 @@ These are great for debugging pathfinding, survival logic, and edge cases.
 If using the provided object files or Makefile:
 ```bash
 make
-./main input.txt
+./tanks_game input.txt
 ```
 
 This runs the full simulation, generating the output files for analysis or visualization.
