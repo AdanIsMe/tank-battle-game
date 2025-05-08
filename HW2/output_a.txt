@@ -1,0 +1,106 @@
+Game initialized with:
+Board size: 8x8
+Player 1 algorithm: OffensiveAlgorithm
+Player 2 algorithm: DefensiveAlgorithm
+
+Starting game...
+
+Step 0:
+Player 1: SHOOT
+Player 2: MOVE_FORWARD
+Shell hit wall at (2,3)
+
+Step 1:
+Player 1: ROTATE_RIGHT to UL
+Player 2: MOVE_FORWARD
+
+Step 2:
+Player 1: ROTATE_RIGHT to U
+Player 2: MOVE_FORWARD
+
+Step 3:
+Player 1: ROTATE_RIGHT to UR
+Player 2: MOVE_FORWARD
+
+Step 4:
+Player 1: ROTATE_RIGHT to R
+Player 2: MOVE_FORWARD
+
+Step 5:
+Player 1: SHOOT
+Player 2: MOVE_FORWARD
+Shell hit wall at (4,3)
+
+Step 6:
+Player 1: ROTATE_RIGHT to DR
+Player 2: MOVE_FORWARD
+
+Step 7:
+Player 1: ROTATE_RIGHT to D
+Player 2: MOVE_FORWARD
+
+Step 8:
+Player 1: ROTATE_RIGHT to DL
+Player 2: MOVE_FORWARD
+
+Step 9:
+Player 1: ROTATE_RIGHT to L
+Player 2: MOVE_FORWARD
+
+Step 10:
+Player 1: SHOOT
+Player 2: MOVE_FORWARD
+Shell hit wall at (2,3)
+
+Step 11:
+Player 1: MOVE_FORWARD
+Player 2: MOVE_FORWARD
+
+Step 12:
+Player 1: MOVE_FORWARD
+Player 2: MOVE_FORWARD
+
+Step 13:
+Player 1: MOVE_FORWARD
+Player 2: MOVE_FORWARD
+
+Step 14:
+Player 1: MOVE_FORWARD
+Player 2: MOVE_FORWARD
+
+Step 15:
+Player 1: ROTATE_LEFT_QUARTER to D
+Player 2: MOVE_FORWARD
+
+Step 16:
+Player 1: MOVE_FORWARD
+Player 2: MOVE_FORWARD
+
+Step 17:
+Player 1: MOVE_FORWARD
+Player 2: SHOOT
+
+Step 18:
+Player 1: ROTATE_RIGHT_QUARTER to L
+Player 2: MOVE_FORWARD
+
+Step 19:
+Player 1: SHOOT
+Player 2: MOVE_FORWARD
+Two shells destroyed each other at (6,5)
+
+Step 20:
+Player 1: MOVE_FORWARD
+Player 2: MOVE_FORWARD
+
+Step 21:
+Player 1: MOVE_FORWARD
+Player 2: NONE
+
+Step 22:
+Player 1: ROTATE_RIGHT to UL
+Player 2: SHOOT
+Shell and Tank 1 destroyed at (5,5)
+
+Game ended after 23 steps.
+Result: Player 2 wins - Player 1 tank destroyed

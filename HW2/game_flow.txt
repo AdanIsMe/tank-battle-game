@@ -1,0 +1,344 @@
+Board size: 8x8
+
+Step 0:
+        
+        
+  ###   
+  #1#   
+  ###   
+ 2      
+@@@@@@@@
+@@@@@@@@
+Directions:
+1: L
+2: R
+
+Board size: 8x8
+
+Step 1:
+        
+        
+  ###   
+  #1#   
+  ###   
+  2     
+@@@@@@@@
+@@@@@@@@
+Directions:
+1: UL
+2: R
+
+Board size: 8x8
+
+Step 2:
+        
+        
+  ###   
+  #1#   
+  ###   
+   2    
+@@@@@@@@
+@@@@@@@@
+Directions:
+1: U
+2: R
+
+Board size: 8x8
+
+Step 3:
+        
+        
+  ###   
+  #1#   
+  ###   
+    2   
+@@@@@@@@
+@@@@@@@@
+Directions:
+1: UR
+2: R
+
+Board size: 8x8
+
+Step 4:
+        
+        
+  ###   
+  #1#   
+  ###   
+     2  
+@@@@@@@@
+@@@@@@@@
+Directions:
+1: R
+2: R
+
+Board size: 8x8
+
+Step 5:
+        
+        
+  ###   
+  #1#   
+  ###   
+      2 
+@@@@@@@@
+@@@@@@@@
+Directions:
+1: R
+2: R
+
+Board size: 8x8
+
+Step 6:
+        
+        
+  ###   
+  #1#   
+  ###   
+       2
+@@@@@@@@
+@@@@@@@@
+Directions:
+1: DR
+2: R
+
+Board size: 8x8
+
+Step 7:
+        
+        
+  ###   
+  #1#   
+  ###   
+2       
+@@@@@@@@
+@@@@@@@@
+Directions:
+1: D
+2: R
+
+Board size: 8x8
+
+Step 8:
+        
+        
+  ###   
+  #1#   
+  ###   
+ 2      
+@@@@@@@@
+@@@@@@@@
+Directions:
+1: DL
+2: R
+
+Board size: 8x8
+
+Step 9:
+        
+        
+  ###   
+  #1#   
+  ###   
+  2     
+@@@@@@@@
+@@@@@@@@
+Directions:
+1: L
+2: R
+
+Board size: 8x8
+
+Step 10:
+        
+        
+  ###   
+   1#   
+  ###   
+   2    
+@@@@@@@@
+@@@@@@@@
+Directions:
+1: L
+2: R
+
+Board size: 8x8
+
+Step 11:
+        
+        
+  ###   
+  1 #   
+  ###   
+    2   
+@@@@@@@@
+@@@@@@@@
+Directions:
+1: L
+2: R
+
+Board size: 8x8
+
+Step 12:
+        
+        
+  ###   
+ 1  #   
+  ###   
+     2  
+@@@@@@@@
+@@@@@@@@
+Directions:
+1: L
+2: R
+
+Board size: 8x8
+
+Step 13:
+        
+        
+  ###   
+1   #   
+  ###   
+      2 
+@@@@@@@@
+@@@@@@@@
+Directions:
+1: L
+2: R
+
+Board size: 8x8
+
+Step 14:
+        
+        
+  ###   
+    #  1
+  ###   
+       2
+@@@@@@@@
+@@@@@@@@
+Directions:
+1: L
+2: R
+
+Board size: 8x8
+
+Step 15:
+        
+        
+  ###   
+    #  1
+  ###   
+2       
+@@@@@@@@
+@@@@@@@@
+Directions:
+1: D
+2: R
+
+Board size: 8x8
+
+Step 16:
+        
+        
+  ###   
+    #   
+  ###  1
+ 2      
+@@@@@@@@
+@@@@@@@@
+Directions:
+1: D
+2: R
+
+Board size: 8x8
+
+Step 17:
+        
+        
+  ###   
+    #   
+  ###   
+ 2 o   1
+@@@@@@@@
+@@@@@@@@
+Directions:
+1: D
+2: R
+
+Board size: 8x8
+
+Step 18:
+        
+        
+  ###   
+    #   
+  ###   
+  2  o 1
+@@@@@@@@
+@@@@@@@@
+Directions:
+1: L
+2: R
+
+Board size: 8x8
+
+Step 19:
+        
+        
+  ###   
+    #   
+  ###   
+   2   1
+@@@@@@@@
+@@@@@@@@
+Directions:
+1: L
+2: R
+
+Board size: 8x8
+
+Step 20:
+        
+        
+  ###   
+    #   
+  ###   
+    2 1 
+@@@@@@@@
+@@@@@@@@
+Directions:
+1: L
+2: R
+
+Board size: 8x8
+
+Step 21:
+        
+        
+  ###   
+    #   
+  ###   
+    21  
+@@@@@@@@
+@@@@@@@@
+Directions:
+1: L
+2: R
+
+Board size: 8x8
+
+Step 22:
+        
+        
+  ###   
+    #   
+  ###   
+    2   
+@@@@@@@@
+@@@@@@@@
+Directions:
+2: R
+
