@@ -1,4 +1,4 @@
-# 🧨 Tank Battle Simulator and Visualizer
+# 🧨 Tank Battle Simulator and Visualizer - Part 1
 
 ## 👤 Contributors
 - **Shaimaa Hoji** – 211961057
