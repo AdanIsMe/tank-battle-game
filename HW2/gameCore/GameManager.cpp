@@ -9,6 +9,8 @@ GameManager::GameManager(int width, int height)
 GameManager::~GameManager() {
     // Clean up any remaining entities
 }
+void GameManager::run(){
+}
 
 // Entity Management
 void GameManager::addShell(int x, int y, Shell* shell) {

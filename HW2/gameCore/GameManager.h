@@ -44,7 +44,7 @@ public:
 
     // Debug
     void printBoardState() const;
-
+    void run();
 private:
     int width, height;
     std::vector<std::vector<Tile>> tiles;

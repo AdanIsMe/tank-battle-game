@@ -1,3 +1,6 @@
+#include <cstddef>
+#include "../common/Player.h"
+
 class MyPlayer : public Player {
     protected:
         int player_index;
