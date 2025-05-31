@@ -1,0 +1,26 @@
+# Tank Battle Visualization Tool
+
+![Python](https://img.shields.io/badge/python-3.6+-blue.svg)
+![Pygame](https://img.shields.io/badge/pygame-2.0+-green.svg)
+
+A Pygame-based visualizer for Tank Battle game simulations.
+
+## Download README
+[Download README.md](https://raw.githubusercontent.com/yourusername/yourrepo/main/README.md)
+
+## Quick Start
+
+```bash
+# Set up environment
+python3 -m venv myenv
+source myenv/bin/activate  # Linux/Mac
+# myenv\Scripts\activate  # Windows
+
+# Install requirements
+pip install pygame
+
+# Run visualizer
+python viewer.py
+
+# Exit environment
+deactivate
