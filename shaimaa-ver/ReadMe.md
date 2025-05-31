@@ -7,6 +7,7 @@
 # Compile and run your C++ game (example)
 g++ GameManager.cpp -o tank_game
 ./tank_game
+```
 
 # Tank Battle Visualization Tool
 
@@ -31,3 +32,4 @@ python viewer.py
 
 # Exit environment
 deactivate
+```
