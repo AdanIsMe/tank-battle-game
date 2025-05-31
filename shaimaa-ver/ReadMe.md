@@ -5,9 +5,6 @@
 
 A Pygame-based visualizer for Tank Battle game simulations.
 
-## Download README
-[Download README.md](https://raw.githubusercontent.com/yourusername/yourrepo/main/README.md)
-
 ## Quick Start
 
 ```bash
