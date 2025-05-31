@@ -1,3 +1,13 @@
+# Tank Battle Visualizer
+
+## Quick Start Guide
+
+### 1. First Run the Game Simulation
+```bash
+# Compile and run your C++ game (example)
+g++ GameManager.cpp -o tank_game
+./tank_game
+
 # Tank Battle Visualization Tool
 
 ![Python](https://img.shields.io/badge/python-3.6+-blue.svg)
