@@ -1,0 +1,100 @@
+#include "../include/Direction.h"
+
+std::pair<int, int> DirectionUtil::getMovement(Direction dir) {
+    switch (dir) {
+        case Direction::UP: return {0, -1};
+        case Direction::UP_RIGHT: return {1, -1};
+        case Direction::RIGHT: return {1, 0};
+        case Direction::DOWN_RIGHT: return {1, 1};
+        case Direction::DOWN: return {0, 1};
+        case Direction::DOWN_LEFT: return {-1, 1};
+        case Direction::LEFT: return {-1, 0};
+        case Direction::UP_LEFT: return {-1, -1};
+        default: return {0, 0};
+    }
+}
+
+Direction DirectionUtil::rotateLeft(Direction dir) {
+    switch (dir) {
+        case Direction::UP: return Direction::UP_LEFT;
+        case Direction::UP_RIGHT: return Direction::UP;
+        case Direction::RIGHT: return Direction::UP_RIGHT;
+        case Direction::DOWN_RIGHT: return Direction::RIGHT;
+        case Direction::DOWN: return Direction::DOWN_RIGHT;
+        case Direction::DOWN_LEFT: return Direction::DOWN;
+        case Direction::LEFT: return Direction::DOWN_LEFT;
+        case Direction::UP_LEFT: return Direction::LEFT;
+        default: return dir;
+    }
+}
+
+Direction DirectionUtil::rotateRight(Direction dir) {
+    switch (dir) {
+        case Direction::UP: return Direction::UP_RIGHT;
+        case Direction::UP_RIGHT: return Direction::RIGHT;
+        case Direction::RIGHT: return Direction::DOWN_RIGHT;
+        case Direction::DOWN_RIGHT: return Direction::DOWN;
+        case Direction::DOWN: return Direction::DOWN_LEFT;
+        case Direction::DOWN_LEFT: return Direction::LEFT;
+        case Direction::LEFT: return Direction::UP_LEFT;
+        case Direction::UP_LEFT: return Direction::UP;
+        default: return dir;
+    }
+}
+
+Direction DirectionUtil::rotateLeftQuarter(Direction dir) {
+    return rotateLeft(rotateLeft(dir));
+}
+
+Direction DirectionUtil::rotateRightQuarter(Direction dir) {
+    return rotateRight(rotateRight(dir));
+}
+
+std::vector<Direction> DirectionUtil::allDirections() {
+    return {
+        Direction::UP,
+        Direction::UP_RIGHT,
+        Direction::RIGHT,
+        Direction::DOWN_RIGHT,
+        Direction::DOWN,
+        Direction::DOWN_LEFT,
+        Direction::LEFT,
+        Direction::UP_LEFT
+    };
+}
+
+
+
+
+
+
+
+
+
+
+
+std::string DirectionUtil::toString(Direction dir) {
+    switch (dir) {
+        case Direction::UP: return "U";
+        case Direction::UP_RIGHT: return "UR";
+        case Direction::RIGHT: return "R";
+        case Direction::DOWN_RIGHT: return "DR";
+        case Direction::DOWN: return "D";
+        case Direction::DOWN_LEFT: return "DL";
+        case Direction::LEFT: return "L";
+        case Direction::UP_LEFT: return "UL";
+        default: return "";
+    }
+}
+
+Direction DirectionUtil::fromString(const std::string& str) {
+    if (str == "U") return Direction::UP;
+    if (str == "UR") return Direction::UP_RIGHT;
+    if (str == "R") return Direction::RIGHT;
+    if (str == "DR") return Direction::DOWN_RIGHT;
+    if (str == "D") return Direction::DOWN;
+    if (str == "DL") return Direction::DOWN_LEFT;
+    if (str == "L") return Direction::LEFT;
+    if (str == "UL") return Direction::UP_LEFT;
+    return Direction::UP; // default
+}
